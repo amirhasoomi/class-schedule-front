@@ -1,8 +1,6 @@
 import React, {
   useState,
   useEffect,
-  CNav,
-  CNavLink
 } from "react";
 import {
   CCard,
@@ -15,7 +13,14 @@ import {
   CCarouselInner,
   CCarouselItem,
   CCol,
-  CRow
+  CRow,
+  CForm,
+  CFormGroup,
+  CLabel,
+  CInput,
+  CButton,
+  CTextarea,
+
 } from '@coreui/react'
 
 //Api
@@ -68,7 +73,7 @@ export default function Home() {
                 {slider.map((slide) => {
                   return (
                     <CCarouselItem>
-                      <img className="d-block w-100" src={slide.image} />
+                      <img className="d-block w-100" src={slide.image} alt={slide.text} />
                       <CCarouselCaption><h3>{slide.title}</h3><p>{slide.text}</p></CCarouselCaption>
                     </CCarouselItem>
                   );
@@ -113,7 +118,7 @@ export default function Home() {
               <CCard color="primary" className="text-white text-center">
                 <CCardBody>
                   <blockquote className="card-bodyquote">
-                    <img className="d-block w-100" src={partner.logo} />
+                    <img className="d-block w-100" src={partner.logo} alt={partner.name} />
                     <footer>{partner.name}</footer>
                   </blockquote>
                 </CCardBody>
@@ -122,6 +127,17 @@ export default function Home() {
           )
         })}
       </CRow>
+      <CCard>
+        <CCardHeader>
+          درباره ما
+        </CCardHeader>
+      </CCard>
+      <div className="bd-example">
+        <dl className="row">
+          <img className="col-sm-6" src="images/about.jpg" alt="about" />
+          <dd className="col-sm-6">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</dd>
+        </dl>
+      </div>
       <CCard>
         <CCardHeader>
           حامیان
@@ -140,6 +156,46 @@ export default function Home() {
           )
         })}
       </CRow>
+      <CCard>
+        <CCardHeader>
+          تماس با ما
+        </CCardHeader>
+      </CCard>
+      <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
+        <CFormGroup row>
+          <CCol md="3">
+            <CLabel htmlFor="text-input">موضوع پیام</CLabel>
+          </CCol>
+          <CCol xs="12" md="9">
+            <CInput id="text-input" name="text-input" placeholder="موضوع" />
+          </CCol>
+        </CFormGroup>
+        <CFormGroup row>
+          <CCol md="3">
+            <CLabel htmlFor="text-input">نام و نام خانوادگی</CLabel>
+          </CCol>
+          <CCol xs="12" md="9">
+            <CInput id="text-input" name="text-input" placeholder="نام و نام خانوادگی" />
+          </CCol>
+        </CFormGroup>
+        <CFormGroup row>
+          <CCol md="3">
+            <CLabel htmlFor="textarea-input">متن پیام</CLabel>
+          </CCol>
+          <CCol xs="12" md="9">
+            <CTextarea
+              name="textarea-input"
+              id="textarea-input"
+              rows="9"
+              placeholder="متن پیام..."
+            />
+          </CCol>
+        </CFormGroup>
+        <CButton type="submit" color="primary"> ارسال</CButton>
+      </CForm>
+
+
+
 
 
     </>
