@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { React, useState } from 'react'
+import { useHistory, Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -15,8 +15,21 @@ import {
   CRow
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+//Api
+import {
+  LoginAxios
+} from "../../../api/axios";
+
 
 const Login = () => {
+  const history = useHistory()
+  const [mobile, setMobile] = useState('');
+  const [pass, setPass] = useState('');
+  const handleLogin = () => {
+    LoginAxios({ mobile, password: pass }).then(() => {
+      history.push(`/`)
+    });
+  };
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -34,7 +47,7 @@ const Login = () => {
                           <CIcon name="cil-user" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="text" placeholder="Username" autoComplete="username" />
+                      <CInput value={mobile} onInput={e => setMobile(e.target.value)} type="text" placeholder="موبایل" autoComplete="username" />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupPrepend>
@@ -42,14 +55,13 @@ const Login = () => {
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="password" placeholder="Password" autoComplete="current-password" />
+                      <CInput value={pass} onInput={e => setPass(e.target.value)} type="password" placeholder="رمز عبور" autoComplete="current-password" />
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
-                        <CButton color="primary" className="px-4">ورود</CButton>
+                        <CButton color="primary" className="px-4" onClick={handleLogin}>ورود</CButton>
                       </CCol>
                       <CCol xs="6" className="text-right">
-                        <CButton color="link" className="px-0">رمز خود را فراموش کرده اید؟</CButton>
                       </CCol>
                     </CRow>
                   </CForm>
@@ -61,7 +73,7 @@ const Login = () => {
                     <h2>ثبت نام</h2>
                     <p>اگر شما در سامانه رشد حساب کاربری ندارید هم اکنون عضو شوید</p>
                     <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>ثبت نام!</CButton>
+                      <CButton color="secondary" className="mt-3" active tabIndex={-1}>ثبت نام!</CButton>
                     </Link>
                   </div>
                 </CCardBody>

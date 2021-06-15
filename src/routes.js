@@ -46,7 +46,7 @@ const Profile = React.lazy(() => import('./views/profile/Profile'));
 
 
 const routes = [
-  { path: '/', exact: true, name: 'صفحه اصلی', component: Home },
+  { path: '', exact: true, name: 'صفحه اصلی', component: Home },
   { path: '/user-panel', exact: true, name: 'پنل کاربری', component: User_panel },
   { path: '/judge-panel', exact: true, name: 'پنل داور', component: Judge_panel },
   { path: '/admin-panel', exact: true, name: 'پنل مدیریت', component: Admin_panel },

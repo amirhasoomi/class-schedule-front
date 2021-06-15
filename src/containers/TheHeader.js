@@ -1,23 +1,10 @@
 import React from 'react'
 import {
   CHeader,
-  CToggler,
-  CHeaderBrand,
   CHeaderNav,
-  CHeaderNavItem,
-  CHeaderNavLink,
-  CRow,
   CCol,
   CButton
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-
-// routes config
-import routes from '../routes'
-
-import {
-  TheHeaderDropdown,
-} from './index'
 
 const TheHeader = () => {
 

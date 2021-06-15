@@ -28,7 +28,8 @@ import {
   getSliderAxios,
   getBannerAxios,
   getPartnersAxios,
-  getSupportsAxios
+  getSupportsAxios,
+  Postmessage
 } from "../../api/axios";
 
 
@@ -39,26 +40,28 @@ export default function Home() {
   const [banners, setBanners] = useState([]);
   const [partners, setPartners] = useState([]);
   const [supports, setSupports] = useState([]);
-
+  const [subject, setSubject] = useState('');
+  const [sender, setSender] = useState('');
+  const [message, setMessage] = useState('');
+  const handleContact = () => {
+    Postmessage({ subject: subject, Name: sender, text: message }).then((res) => {
+      console.log(res.status)
+    })
+  }
   useEffect(() => {
     getSliderAxios().then((res) => {
-      // console.log(res.data)
       setSlider(res.data)
     });
     getBannerAxios().then((res) => {
-      // console.log(res.data)
       setBanners(res.data)
     });
     getPartnersAxios().then((res) => {
-      // console.log(res.data)
       setPartners(res.data)
     });
     getSupportsAxios().then((res) => {
-      // console.log(res.data)
       setSupports(res.data)
     });
     return () => {
-      // setUserData([]);
     };
   }, []);
 
@@ -167,7 +170,7 @@ export default function Home() {
             <CLabel htmlFor="text-input">موضوع پیام</CLabel>
           </CCol>
           <CCol xs="12" md="9">
-            <CInput id="text-input" name="text-input" placeholder="موضوع" />
+            <CInput value={subject} onInput={e => setSubject(e.target.value)} placeholder="موضوع" />
           </CCol>
         </CFormGroup>
         <CFormGroup row>
@@ -175,7 +178,7 @@ export default function Home() {
             <CLabel htmlFor="text-input">نام و نام خانوادگی</CLabel>
           </CCol>
           <CCol xs="12" md="9">
-            <CInput id="text-input" name="text-input" placeholder="نام و نام خانوادگی" />
+            <CInput value={sender} onInput={e => setSender(e.target.value)} id="text-input" name="text-input" placeholder="نام و نام خانوادگی" />
           </CCol>
         </CFormGroup>
         <CFormGroup row>
@@ -188,10 +191,11 @@ export default function Home() {
               id="textarea-input"
               rows="9"
               placeholder="متن پیام..."
+              value={message} onInput={e => setMessage(e.target.value)}
             />
           </CCol>
         </CFormGroup>
-        <CButton type="submit" color="primary"> ارسال</CButton>
+        <CButton onClick={handleContact} color="primary"> ارسال</CButton>
       </CForm>
     </>
   )
