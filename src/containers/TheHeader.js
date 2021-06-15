@@ -6,6 +6,9 @@ import {
   CHeaderNav,
   CHeaderNavItem,
   CHeaderNavLink,
+  CRow,
+  CCol,
+  CButton
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -20,9 +23,13 @@ const TheHeader = () => {
 
   return (
     <CHeader withSubheader>
-      <CHeaderNavItem><h3>sdouivyhsdoiuvh</h3></CHeaderNavItem>
       <CHeaderNav className="d-md-down-none mr-auto">
-        <TheHeaderDropdown />
+          <CCol col="2" xl className="mb-3 mb-xl-0">
+            <CButton block  color="link">پروفایل</CButton>
+          </CCol>
+          <CCol col="2" xl className="mb-3 mb-xl-0">
+            <CButton block variant="outline" color="danger">خروج</CButton>
+          </CCol>
       </CHeaderNav>
     </CHeader>
   )

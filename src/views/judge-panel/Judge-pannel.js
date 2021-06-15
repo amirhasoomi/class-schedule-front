@@ -21,7 +21,7 @@ import usersData from '../users/UsersData'
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 const fields = ['نام طرح', 'کد طرح', 'عملیات',]
-const User_panel = () => {
+const Judge_panel = () => {
     return (
         <>
             <CCard>
@@ -56,4 +56,4 @@ const User_panel = () => {
     )
 }
 
-export default User_panel
+export default Judge_panel
