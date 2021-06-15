@@ -193,11 +193,6 @@ export default function Home() {
         </CFormGroup>
         <CButton type="submit" color="primary"> ارسال</CButton>
       </CForm>
-
-
-
-
-
     </>
   )
 }
