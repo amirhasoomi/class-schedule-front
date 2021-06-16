@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {
+} from "react";
 import { Link } from 'react-router-dom'
-import { useHistory } from "react-router-dom";
 
 import {
   CHeader,
@@ -10,15 +10,11 @@ import {
 } from '@coreui/react'
 
 const TheHeader = () => {
-  const token = localStorage.getItem('ref')
-  const history = useHistory();
   const handleLogout = () => {
     localStorage.clear();
-    history.push(`/`)
-
   };
 
-  console.log(token)
+
   if (localStorage.length <= 1) {
     return (
       <CHeader withSubheader>
@@ -37,9 +33,11 @@ const TheHeader = () => {
     return (
       <CHeader withSubheader>
         <CHeaderNav className="d-md-down-none mr-auto">
-          <CCol col="2" xl className="mb-3 mb-xl-0">
-            <CButton block color="link">پروفایل</CButton>
-          </CCol>
+          <Link to='/panel'>
+            <CCol col="2" xl className="mb-3 mb-xl-0">
+              <CButton block color="link">میزکار</CButton>
+            </CCol>
+          </Link>
           <CCol col="2" xl className="mb-3 mb-xl-0">
             <CButton onClick={handleLogout} block variant="outline" color="danger">خروج</CButton>
           </CCol>
