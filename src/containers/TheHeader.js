@@ -1,6 +1,7 @@
 import React, {
 } from "react";
 import { Link } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 import {
   CHeader,
@@ -12,6 +13,7 @@ import {
 const TheHeader = () => {
   const handleLogout = () => {
     localStorage.clear();
+    history.push(`/`)
   };
 
 
