@@ -11,6 +11,7 @@ import {
 } from '@coreui/react'
 
 const TheHeader = () => {
+  const history = useHistory();
   const handleLogout = () => {
     localStorage.clear();
     history.push(`/`)
