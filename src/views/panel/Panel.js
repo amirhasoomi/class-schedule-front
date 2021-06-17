@@ -37,7 +37,9 @@ import {
     getSupportsAxios,
     deleteSupportsAxios,
     postSupportsAxios,
-
+    getmessageAxios,
+    deleteMessageAxios,
+    getProposalAxios
 } from "../../api/axios";
 
 import usersData from '../users/UsersData'
@@ -49,6 +51,8 @@ export default function Panel() {
     const [banner, setBanner] = useState([]);
     const [partner, setPartner] = useState([]);
     const [support, setSupport] = useState([]);
+    const [message, setMessage] = useState([]);
+    const [proposal, setProposal] = useState([]);
     const [cslide, setCslide] = useState(false)
     // const [pslide, setPslide] = useState(false)
     const [cbanner, setCbanner] = useState(false)
@@ -106,6 +110,14 @@ export default function Panel() {
         });
         getSupportsAxios().then((res) => {
             setSupport(res.data)
+            console.log(res.data)
+        });
+        getmessageAxios().then((res) => {
+            setMessage(res.data)
+            console.log(res.data)
+        });
+        getProposalAxios().then((res) => {
+            setProposal(res.data)
             console.log(res.data)
         });
         return () => {
@@ -472,8 +484,8 @@ export default function Panel() {
                 </CCard>
 
                 <CDataTable
-                    items={usersData}
-                    fields={['موضوع', 'متن', 'عملیات',]}
+                    items={message}
+                    fields={['موضوع', 'فرستنده', 'متن', 'عملیات',]}
                     hover
                     striped
                     bordered
@@ -486,11 +498,45 @@ export default function Panel() {
                                     <CRow className="align-items-center">
 
                                         <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="danger">حذف</CButton>
+                                            <CButton onClick={() => {
+                                                deleteMessageAxios(item.id).then((res) => {
+                                                    console.log(res)
+                                                })
+                                            }} block color="danger">حذف</CButton>
                                         </CCol>
                                     </CRow>
                                 </td>
-                            )
+                            ),
+                        'موضوع':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.subject}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'فرستنده':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.name}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'متن':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.text}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
 
                     }}
 
@@ -509,7 +555,7 @@ export default function Panel() {
                 </CCard>
 
                 <CDataTable
-                    items={usersData}
+                    items={proposal}
                     fields={['نام طرح', 'کد طرح', 'عملیات',]}
                     hover
                     striped

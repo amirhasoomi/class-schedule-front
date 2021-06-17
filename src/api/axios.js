@@ -168,3 +168,33 @@ export const PostmessageAxios = async (data) => {
     });
 };
 
+
+// get message:
+// http://127.0.0.1:8000/api/features/contact
+
+export const getmessageAxios = async () => {
+    return await axios({
+        method: "get",
+        url: `${BASE_URL}features/contact`,
+    });
+};
+
+// delete message:
+// http://127.0.0.1:8000/api/features/contact
+
+export const deleteMessageAxios = async (id) => {
+    return await axios({
+        method: "delete",
+        url: `${BASE_URL}features/contact/${id}`,
+    });
+};
+
+// get proposals:
+// http://127.0.0.1:8000/api/projection/proposal
+
+export const getProposalAxios = async () => {
+    return await axios({
+        method: "get",
+        url: `${BASE_URL}projection/proposal`,
+    });
+};
