@@ -208,3 +208,13 @@ export const deleteProposalAxios = async (id) => {
         url: `${BASE_URL}projection/proposal/${id}`,
     });
 };
+
+// get proposals:
+// http://127.0.0.1:8000/api/projection/proposal
+
+export const getProposalAxios = async () => {
+    return await axios({
+        method: "get",
+        url: `${BASE_URL}projection/proposal`,
+    });
+};

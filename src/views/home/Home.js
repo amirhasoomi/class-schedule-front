@@ -29,7 +29,7 @@ import {
   getBannerAxios,
   getPartnersAxios,
   getSupportsAxios,
-  Postmessage
+  PostmessageAxios
 } from "../../api/axios";
 
 
@@ -44,7 +44,7 @@ export default function Home() {
   const [sender, setSender] = useState('');
   const [message, setMessage] = useState('');
   const handleContact = () => {
-    Postmessage({ subject: subject, Name: sender, text: message }).then((res) => {
+    PostmessageAxios({ subject: subject, Name: sender, text: message }).then((res) => {
       console.log(res.status)
     })
   }
