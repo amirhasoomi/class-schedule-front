@@ -27,7 +27,10 @@ import {
     getSliderAxios,
     deleteSlideAxios,
     putSlideAxios,
-    postSlideAxios
+    postSlideAxios,
+    getBannerAxios,
+    deleteBannerAxios,
+    postBannerAxios,
 } from "../../api/axios";
 
 import usersData from '../users/UsersData'
@@ -36,11 +39,15 @@ import { useHistory } from "react-router-dom";
 export default function Panel() {
     const history = useHistory();
     const [slider, setSlider] = useState([]);
+    const [banner, setBanner] = useState([]);
     const [cslide, setCslide] = useState(false)
     const [pslide, setPslide] = useState(false)
+    const [cbanner, setCbanner] = useState(false)
     const [slideTitle, setSlideTitle] = useState('');
     const [slideText, setSlideText] = useState('');
     const [slideImg, setSlideImg] = useState('');
+    const [bannerTitle, setBannerTitle] = useState('');
+    const [bannerText, setBannerText] = useState('');
     const postslide = () => {
         postSlideAxios({ title: slideTitle, text: slideText, image: slideImg }).then((res) => {
             console.log(res)
@@ -48,6 +55,11 @@ export default function Panel() {
     }
     const putslide = (id) => {
         putSlideAxios(id, { title: slideTitle, text: slideText, image: slideImg }).then((res) => {
+            console.log(res)
+        })
+    }
+    const postBanner = () => {
+        postBannerAxios({ title: bannerTitle, text: bannerText }).then((res) => {
             console.log(res)
         })
     }
@@ -59,6 +71,10 @@ export default function Panel() {
     useEffect(() => {
         getSliderAxios().then((res) => {
             setSlider(res.data)
+            console.log(res.data)
+        });
+        getBannerAxios().then((res) => {
+            setBanner(res.data)
             console.log(res.data)
         });
         return () => {
@@ -115,9 +131,9 @@ export default function Panel() {
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                        {/* <CCol col="4" xl className="mb-3 mb-xl-0">
                                             <CButton onClick={() => setPslide(!pslide)} block color="warning">ویرایش</CButton>
-                                            {/* <CModal
+                                            <CModal
                                                 show={pslide}
                                                 onClose={() => setPslide(!pslide)}
                                                 color="warning"
@@ -138,8 +154,8 @@ export default function Panel() {
                                                     <CButton color="warning" onClick={() => setPslide(!pslide), putslide(item.id)}>ویرایش</CButton>
                                                     <CButton color="secondary" onClick={() => setPslide(!pslide)}>لغو</CButton>
                                                 </CModalFooter>
-                                            </CModal> */}
-                                        </CCol>
+                                            </CModal>
+                                        </CCol> */}
                                         <CCol col="4" xl className="mb-3 mb-xl-0">
                                             <CButton onClick={() => {
                                                 deleteSlideAxios(item.id).then((res) => {
@@ -185,14 +201,35 @@ export default function Panel() {
                                 بنر ها
                         </CCol>
                             <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success">افزودن</CButton>
+                                <CButton block color="success" onClick={() => setCbanner(!cbanner)}>افزودن</CButton>
                             </CCol>
+                            <CModal
+                                show={cbanner}
+                                onClose={() => setCbanner(!cbanner)}
+                                color="success"
+                            >
+                                <CModalHeader closeButton>
+                                    <CModalTitle>افزودن بنر</CModalTitle>
+                                </CModalHeader>
+                                <CModalBody>
+                                    <CInput value={bannerTitle} onInput={e => setBannerTitle(e.target.value)} placeholder="نام بنر" />
+                                    <CTextarea
+                                        rows="9"
+                                        placeholder="متن بنر..."
+                                        value={bannerText} onInput={e => setBannerText(e.target.value)}
+                                    />
+                                </CModalBody>
+                                <CModalFooter>
+                                    <CButton color="success" onClick={() => setCbanner(!cbanner), postBanner}>افزودن</CButton>
+                                    <CButton color="secondary" onClick={() => setCbanner(!cbanner)}>لغو</CButton>
+                                </CModalFooter>
+                            </CModal>
                         </CRow>
                     </CCardHeader>
                 </CCard>
 
                 <CDataTable
-                    items={usersData}
+                    items={banner}
                     fields={['نام بنر', 'متن بنر', 'عملیات',]}
                     hover
                     striped
@@ -202,19 +239,40 @@ export default function Panel() {
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
+
                                         {/* <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="success">مشاهده</CButton>
+                                            <CButton block color="warning">ویرایش</CButton>
                                         </CCol> */}
                                         <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="warning">ویرایش</CButton>
-                                        </CCol>
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="danger">حذف</CButton>
+                                            <CButton onClick={() => {
+                                                deleteBannerAxios(item.id).then((res) => {
+                                                    console.log(res)
+                                                })
+                                            }} block color="danger">حذف</CButton>
                                         </CCol>
                                     </CRow>
                                 </td>
-                            )
-
+                            ),
+                        'نام بنر':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.title}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'متن بنر':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.text}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
                     }}
 
                 />
