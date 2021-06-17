@@ -39,7 +39,8 @@ import {
     postSupportsAxios,
     getmessageAxios,
     deleteMessageAxios,
-    getProposalAxios
+    getProposalAxios,
+    deleteProposalAxios,
 } from "../../api/axios";
 
 import usersData from '../users/UsersData'
@@ -570,17 +571,41 @@ export default function Panel() {
                                         <CCol col="2" xl className="mb-3 mb-xl-0">
                                             <CButton block color="success">مشاهده</CButton>
                                         </CCol>
-                                        <CCol col="2" xl className="mb-3 mb-xl-0">
+                                        {/* <CCol col="2" xl className="mb-3 mb-xl-0">
                                             <CButton block color="warning">ویرایش</CButton>
-                                        </CCol>
+                                        </CCol> */}
                                         <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="danger">حذف</CButton>
+                                            <CButton onClick={() => {
+                                                deleteProposalAxios(item.id).then((res) => {
+                                                    console.log(res)
+                                                })
+                                            }} block color="danger">حذف</CButton>
                                         </CCol>
                                     </CRow>
                                 </td>
-                            )
-
+                            ),
+                        'نام طرح':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.title}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'کد طرح':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.unique_code}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
                     }}
+
 
                 />
 
