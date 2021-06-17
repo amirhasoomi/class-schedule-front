@@ -41,6 +41,9 @@ import {
     deleteMessageAxios,
     getProposalAxios,
     deleteProposalAxios,
+    getJudgesAxios,
+    getMembersAxios,
+    usertypeAxios,
 } from "../../api/axios";
 
 import usersData from '../users/UsersData'
@@ -54,6 +57,8 @@ export default function Panel() {
     const [support, setSupport] = useState([]);
     const [message, setMessage] = useState([]);
     const [proposal, setProposal] = useState([]);
+    const [judges, setJudges] = useState([]);
+    const [members, setMembers] = useState([]);
     const [cslide, setCslide] = useState(false)
     // const [pslide, setPslide] = useState(false)
     const [cbanner, setCbanner] = useState(false)
@@ -119,6 +124,14 @@ export default function Panel() {
         });
         getProposalAxios().then((res) => {
             setProposal(res.data)
+            console.log(res.data)
+        });
+        getJudgesAxios().then((res) => {
+            setJudges(res.data)
+            console.log(res.data)
+        });
+        getmessageAxios().then((res) => {
+            setMembers(res.data)
             console.log(res.data)
         });
         return () => {
@@ -613,18 +626,15 @@ export default function Panel() {
                     <CCardHeader>
                         <CRow className="align-items-center">
                             <CCol col="6" xl className="mb-3 mb-xl-0">
-                                اعضا
-                        </CCol>
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success">افزودن</CButton>
+                                داوران
                             </CCol>
                         </CRow>
                     </CCardHeader>
                 </CCard>
 
                 <CDataTable
-                    items={usersData}
-                    fields={['نام', 'نام خانوادگی', 'نقش',]}
+                    items={judges}
+                    fields={['نام', 'نام خانوادگی', 'نام کاربری', 'نقش',]}
                     hover
                     striped
                     bordered
@@ -635,14 +645,113 @@ export default function Panel() {
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
-                                        <CSelect custom name="select" id="select">
-                                            <option value="1">مدیر</option>
-                                            <option value="2">کاربر</option>
-                                            <option value="4">داور</option>
-                                        </CSelect>
+                                        <CCol col="2" xl className="mb-3 mb-xl-0">
+                                            <CButton onClick={() => {
+                                                usertypeAxios(item.id, { data: '2' }).then((res) => {
+                                                    console.log(res)
+                                                })
+                                            }} block color="warning">تغییر نقش به کاربر</CButton>
+                                        </CCol>
                                     </CRow>
                                 </td>
-                            )
+                            ),
+                        'نام':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.f_name}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'نام خانوادگی':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.l_name}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'نام کاربری':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.username}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+
+                    }}
+
+                />
+                <CCard>
+                    <CCardHeader>
+                        <CRow className="align-items-center">
+                            <CCol col="6" xl className="mb-3 mb-xl-0">
+                                اعضا
+                        </CCol>
+                        </CRow>
+                    </CCardHeader>
+                </CCard>
+
+                <CDataTable
+                    items={members}
+                    fields={['نام', 'نام خانوادگی', 'نام کاربری', 'نقش',]}
+                    hover
+                    striped
+                    bordered
+                    itemsPerPage={10}
+                    bordered
+                    scopedSlots={{
+                        'نقش':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="2" xl className="mb-3 mb-xl-0">
+                                            <CButton onClick={() => {
+                                                usertypeAxios(item.id, { data: '3' }).then((res) => {
+                                                    console.log(res)
+                                                })
+                                            }} block color="warning">تغییر نقش به داور</CButton>
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'نام':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.f_name}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'نام خانوادگی':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.l_name}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'نام کاربری':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.username}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
 
                     }}
 
@@ -661,7 +770,7 @@ export default function Panel() {
                 </CCard>
 
                 <CDataTable
-                    items={usersData}
+                    items={proposal}
                     fields={['نام طرح', 'کد طرح', 'عملیات',]}
                     hover
                     striped
@@ -673,20 +782,44 @@ export default function Panel() {
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                        <CCol col="2" xl className="mb-3 mb-xl-0">
                                             <CButton block color="success">مشاهده</CButton>
                                         </CCol>
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                        {/* <CCol col="2" xl className="mb-3 mb-xl-0">
                                             <CButton block color="warning">ویرایش</CButton>
-                                        </CCol>
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="danger">حذف</CButton>
+                                        </CCol> */}
+                                        <CCol col="2" xl className="mb-3 mb-xl-0">
+                                            <CButton onClick={() => {
+                                                deleteProposalAxios(item.id).then((res) => {
+                                                    console.log(res)
+                                                })
+                                            }} block color="danger">حذف</CButton>
                                         </CCol>
                                     </CRow>
                                 </td>
-                            )
-
+                            ),
+                        'نام طرح':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.title}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'کد طرح':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.unique_code}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
                     }}
+
 
                 />
             </>
@@ -702,7 +835,7 @@ export default function Panel() {
                 </CCard>
 
                 <CDataTable
-                    items={usersData}
+                    items={proposal}
                     fields={['نام طرح', 'کد طرح', 'عملیات',]}
                     hover
                     striped
@@ -714,14 +847,34 @@ export default function Panel() {
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                        <CCol col="2" xl className="mb-3 mb-xl-0">
                                             <CButton block color="success">مشاهده</CButton>
                                         </CCol>
                                     </CRow>
                                 </td>
-                            )
-
+                            ),
+                        'نام طرح':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.title}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'کد طرح':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.unique_code}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
                     }}
+
 
                 />
             </>

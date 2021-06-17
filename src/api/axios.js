@@ -209,12 +209,32 @@ export const deleteProposalAxios = async (id) => {
     });
 };
 
-// get proposals:
-// http://127.0.0.1:8000/api/projection/proposal
+// get judges:
+// http://127.0.0.1:8000/api/auth/judjes
 
-export const getProposalAxios = async () => {
+export const getJudgesAxios = async () => {
     return await axios({
         method: "get",
-        url: `${BASE_URL}projection/proposal`,
+        url: `${BASE_URL}auth/judjes`,
+    });
+};
+
+// get members:
+// http://127.0.0.1:8000/api/auth/members
+
+export const getMembersAxios = async () => {
+    return await axios({
+        method: "get",
+        url: `${BASE_URL}auth/members`,
+    });
+};
+
+// patch user_type:
+// http://127.0.0.1:8000/api/auth/user_type/4
+export const usertypeAxios = async (id, { data }) => {
+    return await axios({
+        method: "patch",
+        url: `${BASE_URL}auth/user_type/${id}`,
+        data,
     });
 };
