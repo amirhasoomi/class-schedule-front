@@ -41,6 +41,7 @@ const Home = React.lazy(() => import('./views/home/Home'));
 const Panel = React.lazy(() => import('./views/panel/Panel'));
 const create_profile = React.lazy(() => import('./views/create-profile/Create-profile'));
 const Profile = React.lazy(() => import('./views/profile/Profile'));
+const EditProfile = React.lazy(() => import('./views/profile/EditProfile'));
 
 
 const routes = [
@@ -48,6 +49,7 @@ const routes = [
   { path: '/panel', exact: true, name: 'پنل', component: Panel },
   { path: '/create-profile', exact: true, name: 'ایجاد پروفایل', component: create_profile },
   { path: '/profile', exact: true, name: 'پروفایل', component: Profile },
+  { path: '/profile/edit', exact: true, name: 'پروفایل', component: EditProfile },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },

@@ -46,8 +46,7 @@ import {
     usertypeAxios,
 } from "../../api/axios";
 
-import usersData from '../users/UsersData'
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Panel() {
     const history = useHistory();
@@ -762,6 +761,8 @@ export default function Panel() {
     else if (localStorage.getItem('user_type') === '2') {
         return (
             <>
+                <Link to='/profile'><CButton color="secondary" size="lg" block>پروفایل من</CButton></Link>
+
                 <CButton color="primary" size="lg" block>طرح جدید</CButton>
                 <CCard>
                     <CCardHeader>
@@ -828,6 +829,7 @@ export default function Panel() {
     else if (localStorage.getItem('user_type') === '3') {
         return (
             <>
+                <Link to='/profile'><CButton color="secondary" size="lg" block>پروفایل من</CButton></Link>
                 <CCard>
                     <CCardHeader>
                         طرح ها

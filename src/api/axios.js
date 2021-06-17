@@ -238,3 +238,13 @@ export const usertypeAxios = async (id, { data }) => {
         data,
     });
 };
+
+// get profile:
+// http://127.0.0.1:8000/api/auth/profile
+
+export const getProfileAxios = async () => {
+    return await axios({
+        method: "get",
+        url: `${BASE_URL}auth/profile`,
+    });
+};

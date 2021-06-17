@@ -23,7 +23,7 @@ import {
 import { Link, useHistory } from "react-router-dom";
 
 
-export default function Profile() {
+export default function EditProfile() {
 
     const [profile, setProfile] = useState([]);
 
@@ -51,33 +51,33 @@ export default function Profile() {
                 </CCol>
                 <CCol sm="6">
                     <CLabel>ایمیل:</CLabel>
-                    <CLabel>{profile.email}</CLabel>
+                    <CInput></CInput>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>نام:</CLabel>
-                    <CLabel>{profile.f_name}</CLabel>
+                    <CInput></CInput>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>نام خانوادگی:</CLabel>
-                    <CLabel>{profile.l_name}</CLabel>
+                    <CInput></CInput>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>کد ملی:</CLabel>
-                    <CLabel>{profile.national_id}</CLabel>
+                    <CInput></CInput>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>تاریخ تولد:</CLabel>
-                    <CLabel>{profile.birthday}</CLabel>
+                    <CInput type="date" id="date-input" name="date-input" placeholder="date" />
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>تلفن ثابت:</CLabel>
-                    <CLabel>{profile.phone}</CLabel>
+                    <CInput></CInput>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>تلفن همراه:</CLabel>
@@ -87,45 +87,45 @@ export default function Profile() {
             <CFormGroup row>
                 <CCol sm="4">
                     <CLabel>کشور:</CLabel>
-                    <CLabel>{profile.Country}</CLabel>
+                    <CInput></CInput>
                 </CCol>
                 <CCol sm="4">
                     <CLabel>استان:</CLabel>
-                    <CLabel>{profile.state}</CLabel>
+                    <CInput></CInput>
                 </CCol>
                 <CCol sm="4">
                     <CLabel>شهر:</CLabel>
-                    <CLabel>{profile.city}</CLabel>
+                    <CInput></CInput>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="12">
                     <CLabel>آدرس:</CLabel>
-                    <CLabel>{profile.address}</CLabel>
+                    <CInput></CInput>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>آخرین مدرک تحصیلی:</CLabel>
-                    <CLabel>{profile.ldc}</CLabel>
+                    <CInput></CInput>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>رشته:</CLabel>
-                    <CLabel>{profile.major}</CLabel>
+                    <CInput></CInput>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>گرایش</CLabel>
-                    <CLabel>{profile.orientation}</CLabel>
+                    <CInput></CInput>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>تخصص</CLabel>
-                    <CLabel>{profile.specialty}</CLabel>
+                    <CInput></CInput>
                 </CCol>
             </CFormGroup>
-            <Link to="/profile/edit">
-                <CButton type="submit" color="warning" block>ویرایش</CButton>
+            <Link>
+                <CButton color="success" block>ثبت</CButton>
             </Link>
         </>
     )
