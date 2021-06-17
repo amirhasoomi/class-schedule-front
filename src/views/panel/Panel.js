@@ -31,6 +31,10 @@ import {
     getBannerAxios,
     deleteBannerAxios,
     postBannerAxios,
+    getPartnersAxios,
+    deletePartnerAxios,
+    postPartnerAxios,
+
 } from "../../api/axios";
 
 import usersData from '../users/UsersData'
@@ -40,26 +44,35 @@ export default function Panel() {
     const history = useHistory();
     const [slider, setSlider] = useState([]);
     const [banner, setBanner] = useState([]);
+    const [partner, setPartner] = useState([]);
     const [cslide, setCslide] = useState(false)
-    const [pslide, setPslide] = useState(false)
+    // const [pslide, setPslide] = useState(false)
     const [cbanner, setCbanner] = useState(false)
+    const [cpartner, setCpartner] = useState(false)
     const [slideTitle, setSlideTitle] = useState('');
     const [slideText, setSlideText] = useState('');
     const [slideImg, setSlideImg] = useState('');
     const [bannerTitle, setBannerTitle] = useState('');
     const [bannerText, setBannerText] = useState('');
+    const [partnerName, setPartnerName] = useState('');
+    const [partnerLogo, setPartnerLogo] = useState('');
     const postslide = () => {
         postSlideAxios({ title: slideTitle, text: slideText, image: slideImg }).then((res) => {
             console.log(res)
         })
     }
-    const putslide = (id) => {
-        putSlideAxios(id, { title: slideTitle, text: slideText, image: slideImg }).then((res) => {
+    // const putslide = (id) => {
+    //     putSlideAxios(id, { title: slideTitle, text: slideText, image: slideImg }).then((res) => {
+    //         console.log(res)
+    //     })
+    // }
+    const postBanner = () => {
+        postBannerAxios({ title: bannerTitle, text: bannerText }).then((res) => {
             console.log(res)
         })
     }
-    const postBanner = () => {
-        postBannerAxios({ title: bannerTitle, text: bannerText }).then((res) => {
+    const postPartner = () => {
+        postPartnerAxios({ name: partnerName, logo: partnerLogo }).then((res) => {
             console.log(res)
         })
     }
@@ -75,6 +88,10 @@ export default function Panel() {
         });
         getBannerAxios().then((res) => {
             setBanner(res.data)
+            console.log(res.data)
+        });
+        getPartnersAxios().then((res) => {
+            setPartner(res.data)
             console.log(res.data)
         });
         return () => {
@@ -283,14 +300,31 @@ export default function Panel() {
                                 همکاران
                         </CCol>
                             <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success">افزودن</CButton>
+                                <CButton block color="success" onClick={() => setCpartner(!cpartner)}>افزودن</CButton>
                             </CCol>
+                            <CModal
+                                show={cpartner}
+                                onClose={() => setCpartner(!cpartner)}
+                                color="success"
+                            >
+                                <CModalHeader closeButton>
+                                    <CModalTitle>افزودن همکار</CModalTitle>
+                                </CModalHeader>
+                                <CModalBody>
+                                    <CInput value={partnerName} onInput={e => setPartnerName(e.target.value)} placeholder="نام همکار" />
+                                    <CInputFile value={partnerLogo} onInput={e => setPartnerLogo(e.target.value)} />
+                                </CModalBody>
+                                <CModalFooter>
+                                    <CButton color="success" onClick={() => setCpartner(!cpartner), postPartner}>افزودن</CButton>
+                                    <CButton color="secondary" onClick={() => setCpartner(!cpartner)}>لغو</CButton>
+                                </CModalFooter>
+                            </CModal>
                         </CRow>
                     </CCardHeader>
                 </CCard>
 
                 <CDataTable
-                    items={usersData}
+                    items={partner}
                     fields={['نام همکار', 'عملیات',]}
                     hover
                     striped
@@ -300,20 +334,33 @@ export default function Panel() {
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
+
                                         {/* <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="success">مشاهده</CButton>
+                                            <CButton block color="warning">ویرایش</CButton>
                                         </CCol> */}
                                         <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="warning">ویرایش</CButton>
-                                        </CCol>
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="danger">حذف</CButton>
+                                            <CButton onClick={() => {
+                                                deletePartnerAxios(item.id).then((res) => {
+                                                    console.log(res)
+                                                })
+                                            }} block color="danger">حذف</CButton>
                                         </CCol>
                                     </CRow>
                                 </td>
-                            )
-
+                            ),
+                        'نام همکار':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.name}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
                     }}
+
+
 
                 />
                 <CCard>

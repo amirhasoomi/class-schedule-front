@@ -106,6 +106,26 @@ export const getPartnersAxios = async () => {
     });
 };
 
+// delete partners:
+// http://127.0.0.1:8000/api/features/partners
+
+export const deletePartnerAxios = async (id) => {
+    return await axios({
+        method: "delete",
+        url: `${BASE_URL}features/partners/${id}`,
+    });
+};
+
+// post partners:
+// http://127.0.0.1:8000/api/features/partners
+export const postPartnerAxios = async (data) => {
+    return await axios({
+        method: "post",
+        url: `${BASE_URL}features/partners`,
+        data,
+    });
+};
+
 // get support:
 // http://127.0.0.1:8000/api/features/support
 
