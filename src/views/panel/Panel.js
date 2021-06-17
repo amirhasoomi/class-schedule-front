@@ -26,7 +26,7 @@ import {
 import {
     getSliderAxios,
     deleteSlideAxios,
-    putSlideAxios,
+    // putSlideAxios,
     postSlideAxios,
     getBannerAxios,
     deleteBannerAxios,
@@ -34,6 +34,9 @@ import {
     getPartnersAxios,
     deletePartnerAxios,
     postPartnerAxios,
+    getSupportsAxios,
+    deleteSupportsAxios,
+    postSupportsAxios,
 
 } from "../../api/axios";
 
@@ -45,10 +48,12 @@ export default function Panel() {
     const [slider, setSlider] = useState([]);
     const [banner, setBanner] = useState([]);
     const [partner, setPartner] = useState([]);
+    const [support, setSupport] = useState([]);
     const [cslide, setCslide] = useState(false)
     // const [pslide, setPslide] = useState(false)
     const [cbanner, setCbanner] = useState(false)
     const [cpartner, setCpartner] = useState(false)
+    const [csupport, setCsupport] = useState(false)
     const [slideTitle, setSlideTitle] = useState('');
     const [slideText, setSlideText] = useState('');
     const [slideImg, setSlideImg] = useState('');
@@ -56,6 +61,8 @@ export default function Panel() {
     const [bannerText, setBannerText] = useState('');
     const [partnerName, setPartnerName] = useState('');
     const [partnerLogo, setPartnerLogo] = useState('');
+    const [supportName, setSupportName] = useState('');
+    const [supportLink, setSupportLink] = useState('');
     const postslide = () => {
         postSlideAxios({ title: slideTitle, text: slideText, image: slideImg }).then((res) => {
             console.log(res)
@@ -76,8 +83,11 @@ export default function Panel() {
             console.log(res)
         })
     }
-
-
+    const postSupport = () => {
+        postSupportsAxios({ name: supportName, link: supportLink }).then((res) => {
+            console.log(res)
+        })
+    }
 
 
 
@@ -92,6 +102,10 @@ export default function Panel() {
         });
         getPartnersAxios().then((res) => {
             setPartner(res.data)
+            console.log(res.data)
+        });
+        getSupportsAxios().then((res) => {
+            setSupport(res.data)
             console.log(res.data)
         });
         return () => {
@@ -251,6 +265,8 @@ export default function Panel() {
                     hover
                     striped
                     bordered
+                    itemsPerPage={10}
+                    bordered
                     scopedSlots={{
                         'عملیات':
                             (item) => (
@@ -329,6 +345,8 @@ export default function Panel() {
                     hover
                     striped
                     bordered
+                    itemsPerPage={10}
+                    bordered
                     scopedSlots={{
                         'عملیات':
                             (item) => (
@@ -370,17 +388,36 @@ export default function Panel() {
                                 حامیان
                         </CCol>
                             <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success">افزودن</CButton>
+                                <CButton block color="success" onClick={() => setCsupport(!csupport)}>افزودن</CButton>
                             </CCol>
+                            <CModal
+                                show={csupport}
+                                onClose={() => setCsupport(!csupport)}
+                                color="success"
+                            >
+                                <CModalHeader closeButton>
+                                    <CModalTitle>افزودن حامی</CModalTitle>
+                                </CModalHeader>
+                                <CModalBody>
+                                    <CInput value={supportName} onInput={e => setSupportName(e.target.value)} placeholder="نام حامی" />
+                                    <CInput value={supportLink} onInput={e => setSupportLink(e.target.value)} placeholder="لینک حامی" />
+                                </CModalBody>
+                                <CModalFooter>
+                                    <CButton color="success" onClick={() => setCsupport(!csupport), postSupport}>افزودن</CButton>
+                                    <CButton color="secondary" onClick={() => setCsupport(!csupport)}>لغو</CButton>
+                                </CModalFooter>
+                            </CModal>
                         </CRow>
                     </CCardHeader>
                 </CCard>
 
                 <CDataTable
-                    items={usersData}
-                    fields={['نام حامی', 'عملیات',]}
+                    items={support}
+                    fields={['نام حامی', 'لینک حامی', 'عملیات',]}
                     hover
                     striped
+                    bordered
+                    itemsPerPage={10}
                     bordered
                     scopedSlots={{
                         'عملیات':
@@ -388,17 +425,38 @@ export default function Panel() {
                                 <td>
                                     <CRow className="align-items-center">
                                         {/* <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="success">مشاهده</CButton>
+                                            <CButton block color="warning">ویرایش</CButton>
                                         </CCol> */}
                                         <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="warning">ویرایش</CButton>
-                                        </CCol>
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="danger">حذف</CButton>
+                                            <CButton onClick={() => {
+                                                deleteSupportsAxios(item.id).then((res) => {
+                                                    console.log(res)
+                                                })
+                                            }} block color="danger">حذف</CButton>
                                         </CCol>
                                     </CRow>
                                 </td>
-                            )
+                            ),
+                        'نام حامی':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.name}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
+                        'لینک حامی':
+                            (item) => (
+                                <td>
+                                    <CRow className="align-items-center">
+                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                            {item.link}
+                                        </CCol>
+                                    </CRow>
+                                </td>
+                            ),
 
                     }}
 
@@ -418,6 +476,8 @@ export default function Panel() {
                     fields={['موضوع', 'متن', 'عملیات',]}
                     hover
                     striped
+                    bordered
+                    itemsPerPage={10}
                     bordered
                     scopedSlots={{
                         'عملیات':
@@ -453,6 +513,8 @@ export default function Panel() {
                     fields={['نام طرح', 'کد طرح', 'عملیات',]}
                     hover
                     striped
+                    bordered
+                    itemsPerPage={10}
                     bordered
                     scopedSlots={{
                         'عملیات':
@@ -495,6 +557,8 @@ export default function Panel() {
                     hover
                     striped
                     bordered
+                    itemsPerPage={10}
+                    bordered
                     scopedSlots={{
                         'نقش':
                             (item) => (
@@ -530,6 +594,8 @@ export default function Panel() {
                     fields={['نام طرح', 'کد طرح', 'عملیات',]}
                     hover
                     striped
+                    bordered
+                    itemsPerPage={10}
                     bordered
                     scopedSlots={{
                         'عملیات':
@@ -569,6 +635,8 @@ export default function Panel() {
                     fields={['نام طرح', 'کد طرح', 'عملیات',]}
                     hover
                     striped
+                    bordered
+                    itemsPerPage={10}
                     bordered
                     scopedSlots={{
                         'عملیات':

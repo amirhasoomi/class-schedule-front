@@ -136,6 +136,27 @@ export const getSupportsAxios = async () => {
     });
 };
 
+// delete support:
+// http://127.0.0.1:8000/api/features/support
+
+export const deleteSupportsAxios = async (id) => {
+    return await axios({
+        method: "delete",
+        url: `${BASE_URL}features/support/${id}`,
+    });
+};
+
+// post support:
+// http://127.0.0.1:8000/api/features/support
+
+export const postSupportsAxios = async (data) => {
+    return await axios({
+        method: "post",
+        url: `${BASE_URL}features/support`,
+        data
+    });
+};
+
 // Post message:
 // http://127.0.0.1:8000/api/features/contact
 
