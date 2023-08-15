@@ -40,16 +40,30 @@ const User = React.lazy(() => import('./views/users/User'));
 const Home = React.lazy(() => import('./views/home/Home'));
 const Panel = React.lazy(() => import('./views/panel/Panel'));
 const create_profile = React.lazy(() => import('./views/create-profile/Create-profile'));
-const Profile = React.lazy(() => import('./views/profile/Profile'));
-const EditProfile = React.lazy(() => import('./views/profile/EditProfile'));
+const MyProfile = React.lazy(() => import('./views/profile/MyProfile'));
+const EditMyProfile = React.lazy(() => import('./views/profile/EditMyProfile'));
+const UserProfile = React.lazy(() => import('./views/profile/UserProfile'));
+const EditUserProfile = React.lazy(() => import('./views/profile/EditUserProfile'));
+const Fields = React.lazy(() => import('./views/field-and-lesson/Fields'));
+const Lessons = React.lazy(() => import('./views/field-and-lesson/Lessons'));
+const Platos = React.lazy(() => import('./views/platos/Platos'));
+const Schedule = React.lazy(() => import('./views/schedule/Schedule'));
+const Schedule_field = React.lazy(() => import('./views/schedule/Schedule_field'));
 
 
 const routes = [
   { path: '/', exact: true, name: 'صفحه اصلی', component: Home },
-  { path: '/panel', exact: true, name: 'پنل', component: Panel },
+  { path: '/userspanel', exact: true, name: 'پنل', component: Panel },
   { path: '/create-profile', exact: true, name: 'ایجاد پروفایل', component: create_profile },
-  { path: '/profile', exact: true, name: 'پروفایل', component: Profile },
-  { path: '/profile/edit', exact: true, name: 'پروفایل', component: EditProfile },
+  { path: '/profile', exact: true, name: 'پروفایل من', component: MyProfile },
+  { path: '/editprofile', exact: true, name: 'ویرایش پروفایل من', component: EditMyProfile },
+  { path: '/profile/:id', exact: true, name: 'پروفایل کاربر', component: UserProfile },
+  { path: '/editprofile/:id', exact: true, name: 'ویرایش پروفایل کاربر', component: EditUserProfile },
+  { path: '/fields', exact: true, name: 'مدیریت رشنه ها', component: Fields },
+  { path: '/fields/:id', exact: true, name: 'مدیریت دروس', component: Lessons },
+  { path: '/platos', exact: true, name: 'مدیریت کلاس ها', component: Platos },
+  { path: '/schedule', exact: true, name: 'مدیریت زمانبندی ها', component: Schedule },
+  { path: '/schedule/fields/:id', exact: true, name: 'مدیریت زمانبندی رشته', component: Schedule_field },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },

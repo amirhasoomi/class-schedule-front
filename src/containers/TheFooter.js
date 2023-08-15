@@ -5,8 +5,8 @@ const TheFooter = () => {
   return (
     <CFooter fixed={false}>
       <div>
-        <a href="/" target="_blank" rel="noopener noreferrer">مرکز رشد</a>
-        <span className="ml-1">&copy; تمامی حقوق محفوظ است.</span>
+        <a href="/" target="_blank" rel="noopener noreferrer">سامانه کلاس بندی</a>
+        <span className="ml-1">&copy; این برنامه یک پروژه دانشگاهی بوده و گسترش و انتشار آن منوط به اخذ مچوز کتبی از توسعه دهنده آن مبیاشد.</span>
       </div>
     </CFooter>
   )

@@ -1,21 +1,37 @@
-import React from 'react'
+import React, {
+  useState
+} from 'react'
 import {
   CButton,
   CCard,
   CCardBody,
-  CCardFooter,
   CCol,
   CContainer,
   CForm,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
-  CInputGroupText,
   CRow
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import { useHistory } from "react-router-dom";
+
+//Api
+import {
+  RegisterAxios
+} from "../../../api/axios";
 
 const Register = () => {
+
+  const history = useHistory();
+  const [mobile, setMobile] = useState('')
+  const [pass, setPass] = useState('')
+
+
+  const handleRegister = () => {
+    RegisterAxios({ mobile: mobile, password: pass }).then(() => {
+      history.push(`/panel`)
+    });
+  };
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -28,19 +44,19 @@ const Register = () => {
                   <CInputGroup className="mb-3">
                     <CInputGroupPrepend>
                     </CInputGroupPrepend>
-                    <CInput type="text" placeholder="تلفن همراه" autoComplete="username" />
+                    <CInput value={mobile} onInput={e => setMobile(e.target.value)} type="text" placeholder="تلفن همراه" autoComplete="username" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupPrepend>
                     </CInputGroupPrepend>
-                    <CInput type="password" placeholder="رمز ورود" autoComplete="new-password" />
+                    <CInput value={pass} onInput={e => setPass(e.target.value)} type="password" placeholder="رمز ورود" autoComplete="new-password" />
                   </CInputGroup>
                   <CInputGroup className="mb-4">
                     <CInputGroupPrepend>
                     </CInputGroupPrepend>
                     <CInput type="password" placeholder="تکرار رمز" autoComplete="new-password" />
                   </CInputGroup>
-                  <CButton color="success" block>ثبت نام</CButton>
+                  <CButton onClick={handleRegister} color="success" block>ثبت نام</CButton>
                 </CForm>
               </CCardBody>
             </CCard>

@@ -1,5 +1,4 @@
 import React, {
-    lazy,
     useState,
     useEffect,
 } from 'react'
@@ -7,28 +6,25 @@ import {
     CCard,
     CCardHeader,
     CCol,
-    CInput,
     CFormGroup,
-    CForm,
-    CSelect,
     CButton,
     CLabel
 } from '@coreui/react'
 
 //Api
 import {
-    getProfileAxios
+    getMyProfileAxios
 } from "../../api/axios";
 
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
-export default function EditProfile() {
+export default function Profile() {
 
     const [profile, setProfile] = useState([]);
 
     useEffect(() => {
-        getProfileAxios().then((res) => {
+        getMyProfileAxios().then((res) => {
             setProfile(res.data)
             console.log(res.data)
         });
@@ -51,33 +47,33 @@ export default function EditProfile() {
                 </CCol>
                 <CCol sm="6">
                     <CLabel>ایمیل:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.email}</CLabel>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>نام:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.f_name}</CLabel>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>نام خانوادگی:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.l_name}</CLabel>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>کد ملی:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.national_id}</CLabel>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>تاریخ تولد:</CLabel>
-                    <CInput type="date" id="date-input" name="date-input" placeholder="date" />
+                    <CLabel>{profile.birthday}</CLabel>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>تلفن ثابت:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.phone}</CLabel>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>تلفن همراه:</CLabel>
@@ -87,45 +83,45 @@ export default function EditProfile() {
             <CFormGroup row>
                 <CCol sm="4">
                     <CLabel>کشور:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.Country}</CLabel>
                 </CCol>
                 <CCol sm="4">
                     <CLabel>استان:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.state}</CLabel>
                 </CCol>
                 <CCol sm="4">
                     <CLabel>شهر:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.city}</CLabel>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="12">
                     <CLabel>آدرس:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.address}</CLabel>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>آخرین مدرک تحصیلی:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.ldc}</CLabel>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>رشته:</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.major}</CLabel>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol sm="6">
                     <CLabel>گرایش</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.orientation}</CLabel>
                 </CCol>
                 <CCol sm="6">
                     <CLabel>تخصص</CLabel>
-                    <CInput></CInput>
+                    <CLabel>{profile.specialty}</CLabel>
                 </CCol>
             </CFormGroup>
-            <Link>
-                <CButton color="success" block>ثبت</CButton>
+            <Link to="/editprofile">
+                <CButton type="submit" color="warning" block>ویرایش</CButton>
             </Link>
         </>
     )

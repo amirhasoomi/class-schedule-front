@@ -1,5 +1,4 @@
 import React, {
-    lazy,
     useState,
     useEffect,
 } from 'react'
@@ -10,128 +9,51 @@ import {
     CCol,
     CRow,
     CDataTable,
-    CSelect,
-    CModal,
-    CModalHeader,
-    CModalTitle,
-    CModalBody,
-    CModalFooter,
-    CTextarea,
-    CInput,
-    CInputFile
-
+    CBadge,
+    CCollapse,
+    CCardBody,
+    CForm,
+    CInputGroup,
+    CInput
 } from '@coreui/react'
+
+import CIcon from '@coreui/icons-react'
 
 //Api
 import {
-    getSliderAxios,
-    deleteSlideAxios,
-    // putSlideAxios,
-    postSlideAxios,
-    getBannerAxios,
-    deleteBannerAxios,
-    postBannerAxios,
-    getPartnersAxios,
-    deletePartnerAxios,
-    postPartnerAxios,
-    getSupportsAxios,
-    deleteSupportsAxios,
-    postSupportsAxios,
-    getmessageAxios,
-    deleteMessageAxios,
-    getProposalAxios,
-    deleteProposalAxios,
-    getJudgesAxios,
-    getMembersAxios,
-    usertypeAxios,
+    getUsersAxios,
+    RegisterAxios
 } from "../../api/axios";
 
 import { Link, useHistory } from "react-router-dom";
 
 export default function Panel() {
     const history = useHistory();
-    const [slider, setSlider] = useState([]);
-    const [banner, setBanner] = useState([]);
-    const [partner, setPartner] = useState([]);
-    const [support, setSupport] = useState([]);
-    const [message, setMessage] = useState([]);
-    const [proposal, setProposal] = useState([]);
-    const [judges, setJudges] = useState([]);
-    const [members, setMembers] = useState([]);
-    const [cslide, setCslide] = useState(false)
-    // const [pslide, setPslide] = useState(false)
-    const [cbanner, setCbanner] = useState(false)
-    const [cpartner, setCpartner] = useState(false)
-    const [csupport, setCsupport] = useState(false)
-    const [slideTitle, setSlideTitle] = useState('');
-    const [slideText, setSlideText] = useState('');
-    const [slideImg, setSlideImg] = useState('');
-    const [bannerTitle, setBannerTitle] = useState('');
-    const [bannerText, setBannerText] = useState('');
-    const [partnerName, setPartnerName] = useState('');
-    const [partnerLogo, setPartnerLogo] = useState('');
-    const [supportName, setSupportName] = useState('');
-    const [supportLink, setSupportLink] = useState('');
-    const postslide = () => {
-        postSlideAxios({ title: slideTitle, text: slideText, image: slideImg }).then((res) => {
-            console.log(res)
-        })
-    }
-    // const putslide = (id) => {
-    //     putSlideAxios(id, { title: slideTitle, text: slideText, image: slideImg }).then((res) => {
-    //         console.log(res)
-    //     })
-    // }
-    const postBanner = () => {
-        postBannerAxios({ title: bannerTitle, text: bannerText }).then((res) => {
-            console.log(res)
-        })
-    }
-    const postPartner = () => {
-        postPartnerAxios({ name: partnerName, logo: partnerLogo }).then((res) => {
-            console.log(res)
-        })
-    }
-    const postSupport = () => {
-        postSupportsAxios({ name: supportName, link: supportLink }).then((res) => {
-            console.log(res)
-        })
+    const [users, setUsers] = useState([]);
+    const [collapse, setCollapse] = useState(false)
+    const [mobile, setMobile] = useState('');
+    const [pass, setPass] = useState('');
+
+    const toggle = (e) => {
+        setCollapse(!collapse)
+        e.preventDefault()
     }
 
+    const handleRegister = () => {
+        RegisterAxios({ mobile, password: pass }).then((res) => {
+            if (res.status === 201) {
+                setCollapse(!collapse)
+                getUsersAxios().then((res) => {
+                    setUsers(res.data)
+                });
+            }
+        });
+    };
 
 
     useEffect(() => {
-        getSliderAxios().then((res) => {
-            setSlider(res.data)
-            console.log(res.data)
-        });
-        getBannerAxios().then((res) => {
-            setBanner(res.data)
-            console.log(res.data)
-        });
-        getPartnersAxios().then((res) => {
-            setPartner(res.data)
-            console.log(res.data)
-        });
-        getSupportsAxios().then((res) => {
-            setSupport(res.data)
-            console.log(res.data)
-        });
-        getmessageAxios().then((res) => {
-            setMessage(res.data)
-            console.log(res.data)
-        });
-        getProposalAxios().then((res) => {
-            setProposal(res.data)
-            console.log(res.data)
-        });
-        getJudgesAxios().then((res) => {
-            setJudges(res.data)
-            console.log(res.data)
-        });
-        getmessageAxios().then((res) => {
-            setMembers(res.data)
-            console.log(res.data)
+        getUsersAxios().then((res) => {
+            setUsers(res.data)
         });
         return () => {
         };
@@ -143,514 +65,49 @@ export default function Panel() {
                 <CCard>
                     <CCardHeader>
                         <CRow className="align-items-center">
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                اسلاید ها
-                        </CCol>
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success" onClick={() => setCslide(!cslide)}>افزودن</CButton>
+                            <CCol sm="10" >
+                                کاربران سیستم
                             </CCol>
-                        </CRow>
-                        <CModal
-                            show={cslide}
-                            onClose={() => setCslide(!cslide)}
-                            color="success"
-                        >
-                            <CModalHeader closeButton>
-                                <CModalTitle>افزودن اسلاید</CModalTitle>
-                            </CModalHeader>
-                            <CModalBody>
-                                <CInput value={slideTitle} onInput={e => setSlideTitle(e.target.value)} placeholder="نام اسلاید" />
-                                <CTextarea
-                                    rows="9"
-                                    placeholder="متن اسلاید..."
-                                    value={slideText} onInput={e => setSlideText(e.target.value)}
-                                />
-                                <CInputFile file={slideImg} onInput={e => setSlideImg(e.target.file)} />
-                            </CModalBody>
-                            <CModalFooter>
-                                <CButton color="success" onClick={() => setCslide(!cslide), postslide}>افزودن</CButton>{' '}
-                                <CButton color="secondary" onClick={() => setCslide(!cslide)}>لغو</CButton>
-                            </CModalFooter>
-                        </CModal>
-                    </CCardHeader>
-                </CCard>
+                            <CCol sm="2" >
+                                <CButton onClick={toggle} block color="light">افزودن کاربر</CButton>
+                            </CCol>
+                        </CRow >
+                        <CCollapse show={collapse}>
+                            <CCardBody className="justify-content-center">
+                                <CForm>
+                                    <CInputGroup className="mb-3">
+                                        <CInput value={mobile} onInput={e => setMobile(e.target.value)} type="text" placeholder="نام کاربری (تلفن همراه)" autoComplete="username" />
+                                    </CInputGroup>
+                                    <CInputGroup className="mb-3">
+                                        <CInput value={pass} onInput={e => setPass(e.target.value)} type="password" placeholder="رمز ورود" autoComplete="new-password" />
+                                    </CInputGroup>
+                                    <CInputGroup className="mb-4">
+                                        <CInput type="password" placeholder="تکرار رمز" autoComplete="new-password" />
+                                    </CInputGroup>
+                                    <CButton onClick={handleRegister} color="success" block>افزودن</CButton>
+                                </CForm>
+                            </CCardBody>
+                        </CCollapse>
+                    </CCardHeader >
+                </CCard >
+
                 <CDataTable
-                    items={slider}
-                    fields={['نام اسلاید', 'متن اسلاید', 'عملیات',]}
+                    items={users.reverse()}
+                    fields={['نام', 'نام خانوادگی', 'نام کاربری (تلفن همراه)', 'نقش', 'عملیات',]}
                     hover
                     striped
                     bordered
                     itemsPerPage={10}
                     pagination
                     scopedSlots={{
-                        'عملیات':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        {/* <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => setPslide(!pslide)} block color="warning">ویرایش</CButton>
-                                            <CModal
-                                                show={pslide}
-                                                onClose={() => setPslide(!pslide)}
-                                                color="warning"
-                                            >
-                                                <CModalHeader closeButton>
-                                                    <CModalTitle>ویرایش اسلاید</CModalTitle>
-                                                </CModalHeader>
-                                                <CModalBody>
-                                                    <CInput value={slideTitle} onInput={e => setSlideTitle(e.target.value)} placeholder="نام اسلاید" />
-                                                    <CTextarea
-                                                        rows="9"
-                                                        placeholder="متن اسلاید..."
-                                                        value={slideText} onInput={e => setSlideText(e.target.value)}
-                                                    />
-                                                    <CInputFile value={slideImg} onInput={e => setSlideImg(e.target.value)} />
-                                                </CModalBody>
-                                                <CModalFooter>
-                                                    <CButton color="warning" onClick={() => setPslide(!pslide), putslide(item.id)}>ویرایش</CButton>
-                                                    <CButton color="secondary" onClick={() => setPslide(!pslide)}>لغو</CButton>
-                                                </CModalFooter>
-                                            </CModal>
-                                        </CCol> */}
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                deleteSlideAxios(item.id).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="danger">حذف</CButton>
-                                        </CCol>
-
-
-                                    </CRow>
-
-                                </td>
-                            ),
-                        'نام اسلاید':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.title}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'متن اسلاید':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.text}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-
-                    }}
-
-                />
-
-                <CCard>
-                    <CCardHeader>
-                        <CRow className="align-items-center">
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                بنر ها
-                        </CCol>
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success" onClick={() => setCbanner(!cbanner)}>افزودن</CButton>
-                            </CCol>
-                            <CModal
-                                show={cbanner}
-                                onClose={() => setCbanner(!cbanner)}
-                                color="success"
-                            >
-                                <CModalHeader closeButton>
-                                    <CModalTitle>افزودن بنر</CModalTitle>
-                                </CModalHeader>
-                                <CModalBody>
-                                    <CInput value={bannerTitle} onInput={e => setBannerTitle(e.target.value)} placeholder="نام بنر" />
-                                    <CTextarea
-                                        rows="9"
-                                        placeholder="متن بنر..."
-                                        value={bannerText} onInput={e => setBannerText(e.target.value)}
-                                    />
-                                </CModalBody>
-                                <CModalFooter>
-                                    <CButton color="success" onClick={() => setCbanner(!cbanner), postBanner}>افزودن</CButton>
-                                    <CButton color="secondary" onClick={() => setCbanner(!cbanner)}>لغو</CButton>
-                                </CModalFooter>
-                            </CModal>
-                        </CRow>
-                    </CCardHeader>
-                </CCard>
-
-                <CDataTable
-                    items={banner}
-                    fields={['نام بنر', 'متن بنر', 'عملیات',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    bordered
-                    scopedSlots={{
-                        'عملیات':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-
-                                        {/* <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="warning">ویرایش</CButton>
-                                        </CCol> */}
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                deleteBannerAxios(item.id).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="danger">حذف</CButton>
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'نام بنر':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.title}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'متن بنر':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.text}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                    }}
-
-                />
-                <CCard>
-                    <CCardHeader>
-                        <CRow className="align-items-center">
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                همکاران
-                        </CCol>
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success" onClick={() => setCpartner(!cpartner)}>افزودن</CButton>
-                            </CCol>
-                            <CModal
-                                show={cpartner}
-                                onClose={() => setCpartner(!cpartner)}
-                                color="success"
-                            >
-                                <CModalHeader closeButton>
-                                    <CModalTitle>افزودن همکار</CModalTitle>
-                                </CModalHeader>
-                                <CModalBody>
-                                    <CInput value={partnerName} onInput={e => setPartnerName(e.target.value)} placeholder="نام همکار" />
-                                    <CInputFile value={partnerLogo} onInput={e => setPartnerLogo(e.target.value)} />
-                                </CModalBody>
-                                <CModalFooter>
-                                    <CButton color="success" onClick={() => setCpartner(!cpartner), postPartner}>افزودن</CButton>
-                                    <CButton color="secondary" onClick={() => setCpartner(!cpartner)}>لغو</CButton>
-                                </CModalFooter>
-                            </CModal>
-                        </CRow>
-                    </CCardHeader>
-                </CCard>
-
-                <CDataTable
-                    items={partner}
-                    fields={['نام همکار', 'عملیات',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    bordered
-                    scopedSlots={{
-                        'عملیات':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-
-                                        {/* <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="warning">ویرایش</CButton>
-                                        </CCol> */}
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                deletePartnerAxios(item.id).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="danger">حذف</CButton>
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'نام همکار':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.name}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                    }}
-
-
-
-                />
-                <CCard>
-                    <CCardHeader>
-                        <CRow className="align-items-center">
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                حامیان
-                        </CCol>
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success" onClick={() => setCsupport(!csupport)}>افزودن</CButton>
-                            </CCol>
-                            <CModal
-                                show={csupport}
-                                onClose={() => setCsupport(!csupport)}
-                                color="success"
-                            >
-                                <CModalHeader closeButton>
-                                    <CModalTitle>افزودن حامی</CModalTitle>
-                                </CModalHeader>
-                                <CModalBody>
-                                    <CInput value={supportName} onInput={e => setSupportName(e.target.value)} placeholder="نام حامی" />
-                                    <CInput value={supportLink} onInput={e => setSupportLink(e.target.value)} placeholder="لینک حامی" />
-                                </CModalBody>
-                                <CModalFooter>
-                                    <CButton color="success" onClick={() => setCsupport(!csupport), postSupport}>افزودن</CButton>
-                                    <CButton color="secondary" onClick={() => setCsupport(!csupport)}>لغو</CButton>
-                                </CModalFooter>
-                            </CModal>
-                        </CRow>
-                    </CCardHeader>
-                </CCard>
-
-                <CDataTable
-                    items={support}
-                    fields={['نام حامی', 'لینک حامی', 'عملیات',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    bordered
-                    scopedSlots={{
-                        'عملیات':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        {/* <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="warning">ویرایش</CButton>
-                                        </CCol> */}
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                deleteSupportsAxios(item.id).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="danger">حذف</CButton>
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'نام حامی':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.name}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'لینک حامی':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.link}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-
-                    }}
-
-                />
-                <CCard>
-                    <CCardHeader>
-                        <CRow className="align-items-center">
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                پبام ها
-                        </CCol>
-                        </CRow>
-                    </CCardHeader>
-                </CCard>
-
-                <CDataTable
-                    items={message}
-                    fields={['موضوع', 'فرستنده', 'متن', 'عملیات',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    bordered
-                    scopedSlots={{
-                        'عملیات':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                deleteMessageAxios(item.id).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="danger">حذف</CButton>
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'موضوع':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.subject}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'فرستنده':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.name}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'متن':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.text}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-
-                    }}
-
-                />
-                <CCard>
-                    <CCardHeader>
-                        <CRow className="align-items-center">
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                طرح ها
-                        </CCol>
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                <CButton block color="success">افزودن</CButton>
-                            </CCol>
-                        </CRow>
-                    </CCardHeader>
-                </CCard>
-
-                <CDataTable
-                    items={proposal}
-                    fields={['نام طرح', 'کد طرح', 'عملیات',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    bordered
-                    scopedSlots={{
-                        'عملیات':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="success">مشاهده</CButton>
-                                        </CCol>
-                                        {/* <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="warning">ویرایش</CButton>
-                                        </CCol> */}
-                                        <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                deleteProposalAxios(item.id).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="danger">حذف</CButton>
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'نام طرح':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.title}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'کد طرح':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.unique_code}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                    }}
-
-
-                />
-
-                <CCard>
-                    <CCardHeader>
-                        <CRow className="align-items-center">
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                داوران
-                            </CCol>
-                        </CRow>
-                    </CCardHeader>
-                </CCard>
-
-                <CDataTable
-                    items={judges}
-                    fields={['نام', 'نام خانوادگی', 'نام کاربری', 'نقش',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    bordered
-                    scopedSlots={{
                         'نقش':
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
-                                        <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                usertypeAxios(item.id, { data: '2' }).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="warning">تغییر نقش به کاربر</CButton>
-                                        </CCol>
+                                        {
+                                            item.user.user_type === 1 ? <CBadge color='success'>مدیر</CBadge>
+                                                : item.user.user_type === 2 ? <CBadge color='warning'>استاد</CBadge>
+                                                    : <CBadge color='secondary'>نامعلوم</CBadge>}
                                     </CRow>
                                 </td>
                             ),
@@ -674,87 +131,32 @@ export default function Panel() {
                                     </CRow>
                                 </td>
                             ),
-                        'نام کاربری':
+                        'نام کاربری (تلفن همراه)':
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
                                         <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.username}
+                                            {item.mobile}
                                         </CCol>
                                     </CRow>
                                 </td>
                             ),
-
-                    }}
-
-                />
-                <CCard>
-                    <CCardHeader>
-                        <CRow className="align-items-center">
-                            <CCol col="6" xl className="mb-3 mb-xl-0">
-                                اعضا
-                        </CCol>
-                        </CRow>
-                    </CCardHeader>
-                </CCard>
-
-                <CDataTable
-                    items={members}
-                    fields={['نام', 'نام خانوادگی', 'نام کاربری', 'نقش',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    bordered
-                    scopedSlots={{
-                        'نقش':
+                        'عملیات':
                             (item) => (
                                 <td>
                                     <CRow className="align-items-center">
                                         <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                usertypeAxios(item.id, { data: '3' }).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="warning">تغییر نقش به داور</CButton>
+                                            <CButton
+                                                onClick={() => { history.push(`/profile/${item.user.id}`) }}
+                                                size="sm" color="secondary"><CIcon name="cil-settings" /></CButton>
                                         </CCol>
                                     </CRow>
                                 </td>
                             ),
-                        'نام':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.f_name}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'نام خانوادگی':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.l_name}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'نام کاربری':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.username}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-
                     }}
 
                 />
+
             </>
         )
     }
@@ -763,21 +165,19 @@ export default function Panel() {
             <>
                 <Link to='/profile'><CButton color="secondary" size="lg" block>پروفایل من</CButton></Link>
 
-                <CButton color="primary" size="lg" block>طرح جدید</CButton>
                 <CCard>
                     <CCardHeader>
-                        طرح های من
-                </CCardHeader>
+                        کلاس های من
+                    </CCardHeader>
                 </CCard>
 
-                <CDataTable
+                {/* <CDataTable
                     items={proposal}
                     fields={['نام طرح', 'کد طرح', 'عملیات',]}
                     hover
                     striped
                     bordered
                     itemsPerPage={10}
-                    bordered
                     scopedSlots={{
                         'عملیات':
                             (item) => (
@@ -786,9 +186,6 @@ export default function Panel() {
                                         <CCol col="2" xl className="mb-3 mb-xl-0">
                                             <CButton block color="success">مشاهده</CButton>
                                         </CCol>
-                                        {/* <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="warning">ویرایش</CButton>
-                                        </CCol> */}
                                         <CCol col="2" xl className="mb-3 mb-xl-0">
                                             <CButton onClick={() => {
                                                 deleteProposalAxios(item.id).then((res) => {
@@ -820,65 +217,7 @@ export default function Panel() {
                                 </td>
                             ),
                     }}
-
-
-                />
-            </>
-        )
-    }
-    else if (localStorage.getItem('user_type') === '3') {
-        return (
-            <>
-                <Link to='/profile'><CButton color="secondary" size="lg" block>پروفایل من</CButton></Link>
-                <CCard>
-                    <CCardHeader>
-                        طرح ها
-                </CCardHeader>
-                </CCard>
-
-                <CDataTable
-                    items={proposal}
-                    fields={['نام طرح', 'کد طرح', 'عملیات',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    bordered
-                    scopedSlots={{
-                        'عملیات':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="success">مشاهده</CButton>
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'نام طرح':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.title}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'کد طرح':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.unique_code}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                    }}
-
-
-                />
+                /> */}
             </>
         )
     }

@@ -7,8 +7,14 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { useHistory } from "react-router-dom";
 
 const TheHeaderDropdown = () => {
+  const history = useHistory();
+  const handleLogout = () => {
+    localStorage.clear();
+    history.push(`/`)
+  };
   return (
     <CDropdown
       inNav
@@ -26,15 +32,11 @@ const TheHeaderDropdown = () => {
       <CDropdownMenu className="pt-0" placement="bottom-end">
 
 
-        <CDropdownItem>
+        <CDropdownItem to={"/profile"}>
           <CIcon name="cil-user" className="mfe-2" />حساب کاربری
         </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-settings" className="mfe-2" />
-          تنظیمات
-        </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
+        <CDropdownItem onClick={handleLogout}>
           <CIcon name="cil-lock-locked" className="mfe-2" />
           خروج
         </CDropdownItem>

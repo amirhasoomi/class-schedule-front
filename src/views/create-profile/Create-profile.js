@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React from 'react'
 import {
     CCard,
     CCardHeader,
@@ -7,12 +7,8 @@ import {
     CFormGroup,
     CForm,
     CSelect,
-    CButton,
-    CLabel
+    CButton
 } from '@coreui/react'
-
-const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
-const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 
 const create_profile = () => {
     return (
@@ -20,7 +16,7 @@ const create_profile = () => {
             <CCard>
                 <CCardHeader>
                     ایجاد پروفایل
-        </CCardHeader>
+                </CCardHeader>
             </CCard>
             <CForm action="" method="post" className="form-horizontal">
                 <CFormGroup row>
