@@ -1,7 +1,19 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 
-const _nav = [
+const nav = [
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'کلاس های من',
+    to: '/userspanel',
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'ساعات حضور',
+    to: '/availability',
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />
+  },
   {
     _tag: 'CSidebarNavItem',
     name: 'Dashboard',
@@ -310,4 +322,4 @@ const _nav = [
   }
 ]
 
-export default _nav
+export default nav

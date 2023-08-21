@@ -16,6 +16,7 @@ import CIcon from '@coreui/icons-react'
 
 // sidebar nav config
 import _nav from './_nav'
+import nav from './nav'
 const TheSidebar = () => {
     const dispatch = useDispatch()
     const show = useSelector(state => state.sidebarShow)
@@ -41,7 +42,12 @@ const TheSidebar = () => {
             <CSidebarNav>
 
                 <CCreateElement
-                    items={_nav}
+                    items={
+                        localStorage.getItem('user_type') === '1' ? _nav
+                            : localStorage.getItem('user_type') === '2' ? nav
+                                : []
+
+                    }
                     components={{
                         CSidebarNavDivider,
                         CSidebarNavDropdown,

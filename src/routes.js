@@ -49,6 +49,8 @@ const Lessons = React.lazy(() => import('./views/field-and-lesson/Lessons'));
 const Platos = React.lazy(() => import('./views/platos/Platos'));
 const Schedule = React.lazy(() => import('./views/schedule/Schedule'));
 const Schedule_field = React.lazy(() => import('./views/schedule/Schedule_field'));
+const Availability = React.lazy(() => import('./views/availability/Availability'));
+
 
 
 const routes = [
@@ -64,6 +66,7 @@ const routes = [
   { path: '/platos', exact: true, name: 'مدیریت کلاس ها', component: Platos },
   { path: '/schedule', exact: true, name: 'مدیریت زمانبندی ها', component: Schedule },
   { path: '/schedule/fields/:id', exact: true, name: 'مدیریت زمانبندی رشته', component: Schedule_field },
+  { path: '/availability', exact: true, name: 'ساعات حضور', component: Availability },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },

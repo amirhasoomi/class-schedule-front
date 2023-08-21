@@ -22,10 +22,21 @@ import CIcon from '@coreui/icons-react'
 //Api
 import {
     getUsersAxios,
-    RegisterAxios
+    RegisterAxios,
+    getScheduleAxios
 } from "../../api/axios";
 
 import { Link, useHistory } from "react-router-dom";
+
+var week = {
+    0: "شنبه",
+    1: "یک شنبه",
+    2: "دو شنبه",
+    3: "سه شنبه",
+    4: "چهار شنبه",
+    5: "پنج شنبه",
+    6: "جمعه"
+};
 
 export default function Panel() {
     const history = useHistory();
@@ -33,6 +44,7 @@ export default function Panel() {
     const [collapse, setCollapse] = useState(false)
     const [mobile, setMobile] = useState('');
     const [pass, setPass] = useState('');
+    const [schedules, setSchedules] = useState([])
 
     const toggle = (e) => {
         setCollapse(!collapse)
@@ -55,8 +67,15 @@ export default function Panel() {
         getUsersAxios().then((res) => {
             setUsers(res.data)
         });
+
+
+        getScheduleAxios().then((res) => {
+            setSchedules(res.data)
+        })
+
         return () => {
         };
+
     }, []);
 
     if (localStorage.getItem('user_type') === '1') {
@@ -107,7 +126,8 @@ export default function Panel() {
                                         {
                                             item.user.user_type === 1 ? <CBadge color='success'>مدیر</CBadge>
                                                 : item.user.user_type === 2 ? <CBadge color='warning'>استاد</CBadge>
-                                                    : <CBadge color='secondary'>نامعلوم</CBadge>}
+                                                    : <CBadge color='secondary'>نامعلوم</CBadge>
+                                        }
                                     </CRow>
                                 </td>
                             ),
@@ -163,61 +183,92 @@ export default function Panel() {
     else if (localStorage.getItem('user_type') === '2') {
         return (
             <>
-                <Link to='/profile'><CButton color="secondary" size="lg" block>پروفایل من</CButton></Link>
 
-                <CCard>
-                    <CCardHeader>
-                        کلاس های من
-                    </CCardHeader>
-                </CCard>
+                <CRow>
+                    <CCol xs="12" lg="12">
+                        <CCard>
+                            <CCardHeader>
+                                <CRow className="align-items-center">
+                                    <CCol sm="10" >
+                                        کلاس های من
+                                    </CCol>
+                                </CRow >
+                            </CCardHeader>
+                            <CCardBody>
+                                <CDataTable
+                                    items={schedules}
+                                    fields={['روز هفته', 'ساعت شروع', 'ساعت اتمام', 'محل برگزاری', 'درس', 'مدرس',]}
+                                    striped
+                                    itemsPerPage={10}
+                                    pagination
+                                    scopedSlots={{
+                                        'روز هفته':
+                                            (item) => (
+                                                <td>
+                                                    <CRow className="align-items-center">
+                                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                                            {week[item.date_of_week]}
+                                                        </CCol>
+                                                    </CRow>
+                                                </td>
+                                            ),
+                                        'ساعت شروع':
+                                            (item) => (
+                                                <td>
+                                                    <CRow className="align-items-center">
+                                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                                            {item.start_time}
+                                                        </CCol>
+                                                    </CRow>
+                                                </td>
+                                            ),
+                                        'ساعت اتمام':
+                                            (item) => (
+                                                <td>
+                                                    <CRow className="align-items-center">
+                                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                                            {item.end_time}
+                                                        </CCol>
+                                                    </CRow>
+                                                </td>
+                                            ),
+                                        'محل برگزاری':
+                                            (item) => (
+                                                <td>
+                                                    <CRow className="align-items-center">
+                                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                                            {item.plato.building}، کلاس {item.plato.name}
+                                                        </CCol>
+                                                    </CRow>
+                                                </td>
+                                            ),
+                                        'درس':
+                                            (item) => (
+                                                <td>
+                                                    <CRow className="align-items-center">
+                                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                                            {item.lesson.name}({item.lesson.code})
+                                                        </CCol>
+                                                    </CRow>
+                                                </td>
+                                            ),
+                                        'مدرس':
+                                            (item) => (
+                                                <td>
+                                                    <CRow className="align-items-center">
+                                                        <CCol col="4" xl className="mb-3 mb-xl-0">
+                                                            {item.professor.f_name} {item.professor.l_name}
+                                                        </CCol>
+                                                    </CRow>
+                                                </td>
+                                            )
+                                    }}
+                                />
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                </CRow>
 
-                {/* <CDataTable
-                    items={proposal}
-                    fields={['نام طرح', 'کد طرح', 'عملیات',]}
-                    hover
-                    striped
-                    bordered
-                    itemsPerPage={10}
-                    scopedSlots={{
-                        'عملیات':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton block color="success">مشاهده</CButton>
-                                        </CCol>
-                                        <CCol col="2" xl className="mb-3 mb-xl-0">
-                                            <CButton onClick={() => {
-                                                deleteProposalAxios(item.id).then((res) => {
-                                                    console.log(res)
-                                                })
-                                            }} block color="danger">حذف</CButton>
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'نام طرح':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.title}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                        'کد طرح':
-                            (item) => (
-                                <td>
-                                    <CRow className="align-items-center">
-                                        <CCol col="4" xl className="mb-3 mb-xl-0">
-                                            {item.unique_code}
-                                        </CCol>
-                                    </CRow>
-                                </td>
-                            ),
-                    }}
-                /> */}
             </>
         )
     }

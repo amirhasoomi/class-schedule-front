@@ -252,3 +252,34 @@ export const deletSscheduleAxios = async (id) => {
         url: `${BASE_URL}projection/schedule/${id}`,
     });
 };
+
+// get schedules:
+// http://127.0.0.1:8000/api/projection/schedule
+
+export const getScheduleAxios = async () => {
+    return await axios({
+        method: "get",
+        url: `${BASE_URL}projection/schedule`,
+    });
+};
+
+// get availability:
+// http://127.0.0.1:8000/api/projection/availability
+
+export const getAvailabilityAxios = async () => {
+    return await axios({
+        method: "get",
+        url: `${BASE_URL}projection/availability`,
+    });
+};
+
+// post availability:
+// http://127.0.0.1:8000/api/projection/availability
+
+export const postAvailabilityAxios = async (data) => {
+    return await axios({
+        method: "post",
+        url: `${BASE_URL}projection/availability`,
+        data
+    });
+};
