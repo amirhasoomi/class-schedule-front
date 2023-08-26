@@ -56,7 +56,7 @@ export default function Panel() {
             if (res.status === 201) {
                 setCollapse(!collapse)
                 getUsersAxios().then((res) => {
-                    setUsers(res.data)
+                    setUsers(res.data.reverse())
                 });
             }
         });
@@ -65,12 +65,12 @@ export default function Panel() {
 
     useEffect(() => {
         getUsersAxios().then((res) => {
-            setUsers(res.data)
+            setUsers(res.data.reverse())
         });
 
 
         getScheduleAxios().then((res) => {
-            setSchedules(res.data)
+            setSchedules(res.data.reverse())
         })
 
         return () => {
@@ -111,7 +111,7 @@ export default function Panel() {
                 </CCard >
 
                 <CDataTable
-                    items={users.reverse()}
+                    items={users}
                     fields={['نام', 'نام خانوادگی', 'نام کاربری (تلفن همراه)', 'نقش', 'عملیات',]}
                     hover
                     striped

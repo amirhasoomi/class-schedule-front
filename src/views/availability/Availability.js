@@ -38,11 +38,11 @@ var week = {
 
 const Availability = () => {
 
-    const [dow, setDOW] = useState()
-    const [sth, setSTH] = useState('')
-    const [stm, setSTM] = useState('')
-    const [eth, setETH] = useState('')
-    const [etm, setETM] = useState('')
+    const [dow, setDOW] = useState(0)
+    const [sth, setSTH] = useState('00')
+    const [stm, setSTM] = useState('00')
+    const [eth, setETH] = useState('00')
+    const [etm, setETM] = useState('00')
     const [collapse1, setCollapse1] = useState(false)
     const [availability, setAvailability] = useState([])
 
@@ -98,7 +98,7 @@ const Availability = () => {
                                         <CCol xs="4">
                                             <CFormGroup>
                                                 <CLabel>روز هفته</CLabel>
-                                                <CSelect onChange={(e) => setDOW(e.target.value)}>
+                                                <CSelect value={dow} onChange={(e) => setDOW(e.target.value)}>
                                                     <option value="0">شنبه</option>
                                                     <option value="1">یک شنبه</option>
                                                     <option value="2">دو شنبه</option>
@@ -115,7 +115,7 @@ const Availability = () => {
                                                 <CRow>
                                                     <CCol>
                                                         <CInputGroup>
-                                                            <CSelect onChange={(e) => setSTM(e.target.value)}>
+                                                            <CSelect value={stm} onChange={(e) => setSTM(e.target.value)}>
                                                                 <option value="00" >00</option>
                                                                 <option value="01" >01</option>
                                                                 <option value="02" >02</option>
@@ -177,7 +177,7 @@ const Availability = () => {
                                                                 <option value="58" >58</option>
                                                                 <option value="59" >59</option>
                                                             </CSelect>
-                                                            <CSelect onChange={(e) => setSTH(e.target.value)}>
+                                                            <CSelect value={sth} onChange={(e) => setSTH(e.target.value)}>
                                                                 <option value="00" >00</option>
                                                                 <option value="01" >01</option>
                                                                 <option value="02" >02</option>
@@ -214,7 +214,7 @@ const Availability = () => {
                                                 <CRow>
                                                     <CCol>
                                                         <CInputGroup>
-                                                            <CSelect onChange={(e) => setETM(e.target.value)}>
+                                                            <CSelect value={etm} onChange={(e) => setETM(e.target.value)}>
                                                                 <option value="00" >00</option>
                                                                 <option value="01" >01</option>
                                                                 <option value="02" >02</option>
@@ -276,7 +276,7 @@ const Availability = () => {
                                                                 <option value="58" >58</option>
                                                                 <option value="59" >59</option>
                                                             </CSelect>
-                                                            <CSelect onChange={(e) => setETH(e.target.value)}>
+                                                            <CSelect value={eth} onChange={(e) => setETH(e.target.value)}>
                                                                 <option value="00" >00</option>
                                                                 <option value="01" >01</option>
                                                                 <option value="02" >02</option>

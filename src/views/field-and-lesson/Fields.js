@@ -39,7 +39,7 @@ const Fields = () => {
 
   useEffect(() => {
     getAllFieldsAxios().then((res) => {
-      setFields(res.data)
+      setFields(res.data.reverse())
     });
     return () => {
     };
@@ -54,7 +54,7 @@ const Fields = () => {
     deleteFieldAxios(id).then((res) => {
       if (res.status === 204) {
         getAllFieldsAxios().then((res) => {
-          setFields(res.data)
+          setFields(res.data.reverse())
         });
       }
     });
@@ -66,7 +66,7 @@ const Fields = () => {
     postFieldAxios({ name: f_name, code: f_code }).then((res) => {
       if (res.status === 201) {
         getAllFieldsAxios().then((res) => {
-          setFields(res.data)
+          setFields(res.data.reverse())
         });
       }
     });
@@ -102,7 +102,7 @@ const Fields = () => {
             </CCardHeader>
             <CCardBody>
               <CDataTable
-                items={fields.reverse()}
+                items={fields}
                 fields={['کد رشته', 'نام رشته', 'عملیات',]}
                 striped
                 itemsPerPage={5}

@@ -18,7 +18,6 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
-
 //Api
 import {
   getFieldAxios,
@@ -43,11 +42,11 @@ var week = {
 
 const Schedule_field = ({ match }) => {
 
-  const [dow, setDOW] = useState()
-  const [sth, setSTH] = useState('')
-  const [stm, setSTM] = useState('')
-  const [eth, setETH] = useState('')
-  const [etm, setETM] = useState('')
+  const [dow, setDOW] = useState(0)
+  const [sth, setSTH] = useState('00')
+  const [stm, setSTM] = useState('00')
+  const [eth, setETH] = useState('00')
+  const [etm, setETM] = useState('00')
   const [plato, setPelato] = useState()
   const [lesson, setLesson] = useState()
   const [user, setUser] = useState()
@@ -71,6 +70,7 @@ const Schedule_field = ({ match }) => {
   })
 
   useEffect(() => {
+
     getFieldAxios(match.params.id).then((res) => {
       setField(res.data)
     })
@@ -81,14 +81,17 @@ const Schedule_field = ({ match }) => {
 
     getPlatosAxios().then((res) => {
       setPelatos(res.data)
+      setPelato(res.data[0].id)
     });
 
     getListLessonAxios(match.params.id).then((res) => {
       setLessons(res.data)
+      setLesson(res.data[0].id)
     })
 
     getUsersAxios().then((res) => {
       setUsers(res.data)
+      setUser(res.data[0].user.id)
     })
   }, []);
 
@@ -112,9 +115,6 @@ const Schedule_field = ({ match }) => {
 
 
   const handlePostSchedule = () => {
-    console.log(sth.toString() + '-' + stm.toString())
-
-
     postScheduleAxios(
       {
         start_time: sth.toString() + '-' + stm.toString(),
@@ -157,7 +157,7 @@ const Schedule_field = ({ match }) => {
                     <CCol xs="2">
                       <CFormGroup>
                         <CLabel>روز هفته</CLabel>
-                        <CSelect onChange={(e) => setDOW(e.target.value)}>
+                        <CSelect value={dow} onChange={(e) => setDOW(e.target.value)}>
                           <option value="0">شنبه</option>
                           <option value="1">یک شنبه</option>
                           <option value="2">دو شنبه</option>
@@ -174,7 +174,7 @@ const Schedule_field = ({ match }) => {
                         <CRow>
                           <CCol>
                             <CInputGroup>
-                              <CSelect onChange={(e) => setSTM(e.target.value)}>
+                              <CSelect value={stm} onChange={(e) => setSTM(e.target.value)}>
                                 <option value="00" >00</option>
                                 <option value="01" >01</option>
                                 <option value="02" >02</option>
@@ -236,7 +236,7 @@ const Schedule_field = ({ match }) => {
                                 <option value="58" >58</option>
                                 <option value="59" >59</option>
                               </CSelect>
-                              <CSelect onChange={(e) => setSTH(e.target.value)}>
+                              <CSelect value={sth} onChange={(e) => setSTH(e.target.value)}>
                                 <option value="00" >00</option>
                                 <option value="01" >01</option>
                                 <option value="02" >02</option>
@@ -273,7 +273,7 @@ const Schedule_field = ({ match }) => {
                         <CRow>
                           <CCol>
                             <CInputGroup>
-                              <CSelect onChange={(e) => setETM(e.target.value)}>
+                              <CSelect value={etm} onChange={(e) => setETM(e.target.value)}>
                                 <option value="00" >00</option>
                                 <option value="01" >01</option>
                                 <option value="02" >02</option>
@@ -335,7 +335,7 @@ const Schedule_field = ({ match }) => {
                                 <option value="58" >58</option>
                                 <option value="59" >59</option>
                               </CSelect>
-                              <CSelect onChange={(e) => setETH(e.target.value)}>
+                              <CSelect value={eth} onChange={(e) => setETH(e.target.value)}>
                                 <option value="00" >00</option>
                                 <option value="01" >01</option>
                                 <option value="02" >02</option>
@@ -369,7 +369,7 @@ const Schedule_field = ({ match }) => {
                     <CCol xs="2">
                       <CFormGroup>
                         <CLabel>محل برگزاری</CLabel>
-                        <CSelect onChange={(e) => setPelato(e.target.value)}>
+                        <CSelect value={plato} onChange={(e) => setPelato(e.target.value)}>
                           {plato_options}
                         </CSelect>
                       </CFormGroup>
@@ -377,7 +377,7 @@ const Schedule_field = ({ match }) => {
                     <CCol xs="2">
                       <CFormGroup>
                         <CLabel>درس</CLabel>
-                        <CSelect onChange={(e) => setLesson(e.target.value)}>
+                        <CSelect value={lesson} onChange={(e) => setLesson(e.target.value)}>
                           {lesson_options}
                         </CSelect>
                       </CFormGroup>
@@ -385,7 +385,7 @@ const Schedule_field = ({ match }) => {
                     <CCol xs="2">
                       <CFormGroup>
                         <CLabel>مدرس</CLabel>
-                        <CSelect onChange={(e) => setUser(e.target.value)}>
+                        <CSelect value={user} onChange={(e) => setUser(e.target.value)}>
                           {user_options}
                         </CSelect>
                       </CFormGroup>
@@ -476,14 +476,12 @@ const Schedule_field = ({ match }) => {
                         </CRow>
                       </td>
                     ),
-
                 }}
               />
             </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-
     </>
   )
 }

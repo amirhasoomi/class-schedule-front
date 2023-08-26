@@ -43,7 +43,7 @@ const Lessons = ({ match }) => {
     })
 
     getListLessonAxios(match.params.id).then((res) => {
-      setLessons(res.data)
+      setLessons(res.data.reverse())
     })
   }, []);
 
@@ -57,7 +57,7 @@ const Lessons = ({ match }) => {
     deleteLessonAxios(id).then((res) => {
       if (res.status === 204) {
         getListLessonAxios(match.params.id).then((res) => {
-          setLessons(res.data)
+          setLessons(res.data.reverse())
         });
       }
     });
@@ -75,7 +75,7 @@ const Lessons = ({ match }) => {
     ).then((res) => {
       if (res.status === 201) {
         getListLessonAxios(match.params.id).then((res) => {
-          setLessons(res.data)
+          setLessons(res.data.reverse())
           setCollapse1(!collapse1)
         });
       }

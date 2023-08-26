@@ -35,7 +35,7 @@ const Platos = () => {
 
   useEffect(() => {
     getPlatosAxios().then((res) => {
-      setPelatos(res.data)
+      setPelatos(res.data.reverse())
     });
     return () => {
     };
@@ -50,7 +50,7 @@ const Platos = () => {
     deletePlatoAxios(id).then((res) => {
       if (res.status === 204) {
         getPlatosAxios().then((res) => {
-          setPelatos(res.data)
+          setPelatos(res.data.reverse())
         });
       }
     });
@@ -62,7 +62,7 @@ const Platos = () => {
     postPlatoAxios({ building: building, name: name, capacity: capacity }).then((res) => {
       if (res.status === 201) {
         getPlatosAxios().then((res) => {
-          setPelatos(res.data)
+          setPelatos(res.data.reverse())
         });
       }
     });
@@ -99,7 +99,7 @@ const Platos = () => {
             </CCardHeader>
             <CCardBody>
               <CDataTable
-                items={platos.reverse()}
+                items={platos}
                 fields={['نام ساختمان', 'نام کلاس', 'ظرفیت کلاس', 'عملیات',]}
                 striped
                 itemsPerPage={5}
